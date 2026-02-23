@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TITAN TIMBER</title>
+
+<style>
+:root{
+  --bg1:#0b1220;
+  --bg2:#112a46;
+  --bg3:#123a2a;
+  --card:rgba(255,255,255,.08);
+  --stroke:rgba(255,255,255,.14);
+  --text:rgba(255,255,255,.92);
+  --muted:rgba(255,255,255,.74);
+  --accent:#4ade80;
+  --accent2:#22c55e;
+  --shadow:0 22px 70px rgba(0,0,0,.45);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;}
+html{scroll-behavior:smooth;}
+body{
+  color:var(--text);
+  min-height:100vh;
+  background:radial-gradient(1200px 600px at 15% 15%, rgba(74,222,128,.18), transparent 55%),
+             radial-gradient(900px 500px at 90% 20%, rgba(56,189,248,.12), transparent 52%),
+             linear-gradient(-45deg,var(--bg1),var(--bg2),var(--bg3),#0a1a14);
+  background-size: 100% 100%, 100% 100%, 400% 400%;
+  animation:bgMove 16s ease infinite;
+  overflow-x:hidden;
+}
+body:before{
+  content:"";
+  position:fixed;inset:0;
+  pointer-events:none;
+  background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
+  background-size: 22px 22px;
+  opacity:.05;
+  mix-blend-mode: overlay;
+  animation:grain 8s linear infinite;
+}
+@keyframes bgMove{
+  0%{background-position:0 0,0 0,0% 50%;}
+  50%{background-position:0 0,0 0,100% 50%;}
+  100%{background-position:0 0,0 0,0% 50%;}
+}
+@keyframes grain{
+  0%{transform:translate3d(0,0,0)}
+  100%{transform:translate3d(-40px,-30px,0)}
+}
+
+.container{max-width:1200px;margin:0 auto;padding:0 18px;}
+.topbar{
+  position:sticky;top:0;z-index:999;
+  backdrop-filter: blur(12px);
+  background: rgba(0,0,0,.35);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.topbar-inner{
+  display:flex;gap:14px;justify-content:center;align-items:center;
+  padding:10px 0;font-size:13px;color:var(--muted);
+  flex-wrap:wrap;
+}
+.dot{opacity:.5}
+
+.nav{
+  position:sticky;top:41px;z-index:998;
+  backdrop-filter: blur(12px);
+  background: rgba(0,0,0,.18);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.nav-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 0;gap:16px;
+  flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:12px;min-width:260px;}
+.brand img{
+  width:52px;height:52px;border-radius:14px;
+  background:#fff;padding:6px;border:1px solid rgba(0,0,0,.08);
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+.brand .name{font-weight:800;letter-spacing:.2px;}
+.badge{
+  margin-top:4px;
+  display:inline-flex;gap:10px;align-items:center;flex-wrap:wrap;
+  font-size:12px;color:rgba(255,255,255,.78);
+}
+.pill{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 12px;border-radius:999px;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.10);
+}
+.pill strong{color:#fff;font-weight:700}
+
+.navlinks{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.navlinks a{
+  text-decoration:none;color:rgba(255,255,255,.86);
+  padding:10px 12px;border-radius:12px;
+  border:1px solid transparent;
+  transition: all .2s ease;
+}
+.navlinks a:hover{
+  background:rgba(255,255,255,.08);
+  border-color:rgba(255,255,255,.12);
+}
+.navcta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:12px 16px;border-radius:14px;
+  text-decoration:none;font-weight:800;
+  border:1px solid rgba(255,255,255,.12);
+  transition: transform .15s ease, filter .15s ease, background .2s ease;
+  user-select:none;
+}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.06);}
+.btn-primary{
+  background: linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#053318;border-color: rgba(0,0,0,.08);
+}
+.btn-ghost{background:rgba(255,255,255,.06);color:#fff;}
+
+.hero{padding:42px 0 22px;}
+.hero-grid{display:grid;grid-template-columns: 1.15fr .85fr;gap:18px;}
+@media (max-width: 980px){ .hero-grid{grid-template-columns:1fr;} }
+
+.card{
+  background: var(--card);
+  border:1px solid var(--stroke);
+  border-radius:22px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+}
+.hero-left{padding:34px;position:relative;overflow:hidden;}
+.hero-left:before{
+  content:"";
+  position:absolute;inset:-120px;
+  background: radial-gradient(circle at 20% 30%, rgba(74,222,128,.18), transparent 55%),
+              radial-gradient(circle at 70% 40%, rgba(56,189,248,.14), transparent 52%);
+  transform: rotate(8deg);
+  opacity:.9;
+}
+.hero-left > *{position:relative; z-index:2;}
+.float-deck{position:absolute; inset:0; pointer-events:none; z-index:1;}
+.float{
+  position:absolute;
+  width:155px; height:105px;
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow: 0 18px 50px rgba(0,0,0,.42);
+  opacity:0;
+  filter:saturate(1.06) contrast(1.05);
+}
+.float img{width:100%;height:100%;object-fit:cover;}
+.float:after{content:"";position:absolute; inset:0;background: linear-gradient(to top, rgba(0,0,0,.55), transparent 60%);}
+.f1{top:16px; right:18px;}
+.f2{top:120px; right:190px;}
+.f3{bottom:22px; right:22px;}
+.f4{bottom:110px; left:22px;}
+.f5{top:78px; left:200px;}
+@keyframes popFloat{
+  0%{opacity:0; transform:translateY(14px) scale(.96) rotate(-2deg);}
+  10%{opacity:1; transform:translateY(0) scale(1) rotate(0deg);}
+  35%{opacity:1; transform:translateY(-6px) scale(1.01) rotate(1deg);}
+  50%{opacity:0; transform:translateY(-14px) scale(.98) rotate(2deg);}
+  100%{opacity:0; transform:translateY(-14px) scale(.98) rotate(2deg);}
+}
+@keyframes drift{
+  0%{transform:translate(0,0)}
+  50%{transform:translate(10px,-8px)}
+  100%{transform:translate(0,0)}
+}
+.float{animation: popFloat 15s infinite ease-in-out, drift 6s infinite ease-in-out;}
+.f1{animation-delay:0s, 0s;}
+.f2{animation-delay:3s, 1.2s;}
+.f3{animation-delay:6s, 2.4s;}
+.f4{animation-delay:9s, 3.1s;}
+.f5{animation-delay:12s, 4.0s;}
+
+.kicker{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px;color:rgba(255,255,255,.82);}
+.kicker .pill{background:rgba(255,255,255,.09);}
+h1{font-size: clamp(34px, 4.6vw, 56px);line-height:1.02;margin-bottom:14px;letter-spacing:-.8px;}
+.lead{color:var(--muted);font-size: 16px;line-height:1.6;max-width: 720px;}
+.hero-actions{margin-top:18px;display:flex;gap:12px;flex-wrap:wrap;}
+
+.hero-right{padding:18px;display:flex;flex-direction:column;gap:14px;}
+.quick{
+  padding:18px;border-radius:18px;
+  background:rgba(0,0,0,.22);
+  border:1px solid rgba(255,255,255,.10);
+}
+.quick h3{font-size:16px;margin-bottom:10px;}
+.qrow{
+  display:flex;justify-content:space-between;gap:10px;
+  padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08);
+  color:rgba(255,255,255,.86);
+}
+.qrow:last-child{border-bottom:none;}
+.qrow span{color:rgba(255,255,255,.70)}
+.qrow strong{font-weight:800}
+.note{font-size:12px;color:rgba(255,255,255,.68);margin-top:10px;}
+
+.stats{display:grid;grid-template-columns: repeat(3, 1fr);gap:12px;}
+@media (max-width: 520px){ .stats{grid-template-columns:1fr;} }
+.stat{
+  padding:16px;border-radius:18px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.10);
+  transition: transform .18s ease;
+}
+.stat:hover{transform: translateY(-2px);}
+.stat .num{font-size:28px;font-weight:900;letter-spacing:-.5px;}
+.stat .lbl{color:rgba(255,255,255,.72);font-size:12px;margin-top:4px;}
+
+.reveal{opacity:0;transform:translateY(12px);transition: all .65s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+.delay1{transition-delay:.12s}
+.delay2{transition-delay:.24s}
+.delay3{transition-delay:.36s}
+
+.section{padding:26px 0;}
+.section h2{font-size:28px;margin:10px 0 14px;letter-spacing:-.3px;}
+
+.grid4{display:grid;grid-template-columns: repeat(4, 1fr);gap:14px;}
+@media (max-width: 980px){ .grid4{grid-template-columns: repeat(2,1fr);} }
+@media (max-width: 520px){ .grid4{grid-template-columns: 1fr;} }
+
+.svc{
+  padding:18px;border-radius:20px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.10);
+  transform-style:preserve-3d;
+  transition: transform .18s ease, background .2s ease;
+}
+.svc:hover{
+  transform: perspective(900px) rotateX(6deg) rotateY(-6deg) translateY(-2px);
+  background:rgba(255,255,255,.085);
+}
+.svc h3{font-size:16px;margin-bottom:8px;}
+.svc p{color:rgba(255,255,255,.72);line-height:1.5;font-size:13px;}
+.icon{
+  width:44px;height:44px;border-radius:14px;
+  display:grid;place-items:center;margin-bottom:10px;
+  background:rgba(74,222,128,.16);
+  border:1px solid rgba(74,222,128,.25);
+}
+
+/* Projects */
+.projects{display:grid;grid-template-columns: repeat(3, 1fr);gap:14px;}
+@media (max-width: 980px){ .projects{grid-template-columns:1fr;} }
+.proj{
+  padding:16px;border-radius:20px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.10);
+}
+.proj h3{font-size:16px;margin-bottom:8px;}
+.proj p{color:rgba(255,255,255,.72);font-size:13px;line-height:1.5;}
+.beforeafter{margin-top:12px;display:grid;grid-template-columns: 1fr 1fr;gap:10px;}
+.ba{
+  border-radius:16px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(0,0,0,.18);
+  height:120px;position:relative;
+}
+.ba img{width:100%;height:100%;object-fit:cover;}
+.tag{
+  position:absolute;left:10px;top:10px;
+  font-size:11px;font-weight:900;
+  padding:6px 10px;border-radius:999px;
+  background:rgba(0,0,0,.45);
+  border:1px solid rgba(255,255,255,.14);
+}
+
+/* Testimonials slider */
+.testimonials{padding:18px;}
+.tbox{
+  background:rgba(0,0,0,.22);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:20px;
+  padding:18px;
+  position:relative;
+  overflow:hidden;
+}
+.tquote{font-size:15px;line-height:1.6;color:rgba(255,255,255,.86);}
+.tname{margin-top:12px;color:rgba(255,255,255,.72);font-weight:900;font-size:12px;letter-spacing:.2px;}
+.tnav{display:flex;gap:8px;justify-content:flex-end;margin-top:12px;}
+.tnav button{
+  width:10px;height:10px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.28);
+  background:rgba(255,255,255,.12);
+  cursor:pointer;
+}
+.tnav button.active{background:var(--accent);border-color: rgba(0,0,0,.2);}
+
+/* Equipment carousel */
+.equip{padding:18px;}
+.carousel{position:relative;height:320px;border-radius:22px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background: rgba(0,0,0,.18);}
+.slide{position:absolute;inset:0;opacity:0;transform: translateX(30px) scale(.98);transition: opacity .8s ease, transform .8s ease;}
+.slide.active{opacity:1;transform: translateX(0) scale(1);}
+.slide img{width:100%;height:100%;object-fit:cover;filter:saturate(1.05) contrast(1.05);}
+.slide:after{content:"";position:absolute;inset:0;background: linear-gradient(to top, rgba(0,0,0,.65), transparent 55%),linear-gradient(to right, rgba(0,0,0,.25), transparent 60%);}
+.caption{position:absolute;left:18px;bottom:16px;right:18px;z-index:2;}
+.caption .cap-title{font-weight:900;font-size:18px;letter-spacing:-.2px;}
+.caption .cap-sub{color:rgba(255,255,255,.75);font-size:12px;margin-top:4px;}
+.dots{position:absolute;right:16px;bottom:16px;display:flex;gap:8px;z-index:3;}
+.dots button{width:10px;height:10px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);cursor:pointer;}
+.dots button.active{background:var(--accent);border-color: rgba(0,0,0,.2);}
+
+/* Gallery section */
+.galleryGrid{
+  display:grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap:12px;
+}
+@media (max-width: 980px){ .galleryGrid{grid-template-columns: repeat(3,1fr);} }
+@media (max-width: 560px){ .galleryGrid{grid-template-columns: repeat(2,1fr);} }
+.gcard{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:18px;
+  overflow:hidden;
+  transition: transform .18s ease;
+}
+.gcard:hover{transform: translateY(-2px);}
+.gcard img{width:100%;height:140px;object-fit:cover;display:block;}
+.gcap{padding:10px 10px;color:rgba(255,255,255,.72);font-size:12px;}
+
+/* Quote form */
+.formwrap{padding:18px;}
+form{display:grid;grid-template-columns: 1fr 1fr;gap:12px;}
+@media(max-width:720px){ form{grid-template-columns:1fr;} }
+.field{display:flex;flex-direction:column;gap:8px;}
+label{font-size:12px;color:rgba(255,255,255,.72);}
+input, select, textarea{
+  background:rgba(0,0,0,.22);
+  border:1px solid rgba(255,255,255,.12);
+  color:#fff;border-radius:14px;
+  padding:12px 12px;outline:none;
+}
+textarea{min-height:110px;resize:vertical;grid-column:1/-1;}
+small{color:rgba(255,255,255,.62);}
+.form-actions{grid-column:1/-1;display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+.hint{color:rgba(255,255,255,.65);font-size:12px;}
+
+footer{
+  margin-top:32px;
+  padding:26px 0 70px;
+  border-top:1px solid rgba(255,255,255,.08);
+  color:rgba(255,255,255,.65);
+  text-align:center;
+}
+
+/* WhatsApp floating */
+.whatsapp{
+  position:fixed;right:18px;bottom:18px;z-index:1000;
+  background: linear-gradient(135deg,#25D366,#1fb955);
+  color:#063;padding:14px 18px;border-radius:999px;
+  font-weight:900;text-decoration:none;
+  box-shadow: 0 14px 34px rgba(0,0,0,.45);
+  border:1px solid rgba(0,0,0,.12);
+}
+.whatsapp span{color:#053318;}
+.whatsapp:hover{filter:brightness(1.04);transform:translateY(-1px);}
+</style>
+</head>
+
+<body>
+<div class="topbar">
+  <div class="container topbar-inner">
+    <span><strong>Established:</strong> 2009</span>
+    <span class="dot">•</span>
+    <span><strong>Phone:</strong> +1 707 314 7056</span>
+    <span class="dot">•</span>
+    <span><strong>Email:</strong> titantimber@usa.com</span>
+    <span class="dot">•</span>
+    <span><strong>Service Areas:</strong> USA &amp; Canada</span>
+  </div>
+</div>
+
+<div class="nav">
+  <div class="container nav-inner">
+    <div class="brand">
+      <img src="logo.png" alt="TITAN TIMBER Logo">
+      <div>
+        <div class="name">TITAN TIMBER</div>
+        <div class="badge">
+          <div class="pill">Trusted &amp; Reliable</div>
+          <div class="pill"><strong>Est.</strong> 2009</div>
+          <div class="pill">USA • Canada</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#projects">Projects</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#equipment">Equipment</a>
+      <a href="#contact">Contact</a>
+    </div>
+
+    <div class="navcta">
+      <a class="btn btn-ghost" href="#gallery">View Gallery</a>
+      <a class="btn btn-primary" href="#contact">Request a Quote</a>
+    </div>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="container hero-grid">
+
+    <div class="card hero-left reveal">
+      <div class="float-deck" aria-hidden="true">
+        <div class="float f1"><img src="havester.jpg" alt=""></div>
+        <div class="float f2"><img src="forwarder.jpg" alt=""></div>
+        <div class="float f3"><img src="buncher.jpg" alt=""></div>
+        <div class="float f4"><img src="truck.jpg" alt=""></div>
+        <div class="float f5"><img src="CEO.jpeg" alt=""></div>
+      </div>
+
+      <div class="kicker">
+        <div class="pill">Safety-first operations</div>
+        <div class="pill">On-time delivery</div>
+        <div class="pill">Professional crews</div>
+        <div class="pill">Coverage: USA &amp; Canada</div>
+      </div>
+
+      <h1>Professional Timber<br/>Harvesting &amp; Land Clearing</h1>
+      <p class="lead">
+        TITAN TIMBER provides safe, efficient, and professional logging operations —
+        including land clearing, timber harvesting, hauling, and site preparation —
+        with a strong commitment to safety, quality work, and environmental responsibility.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#contact">Request a Quote</a>
+        <a class="btn btn-ghost" href="#gallery">See Photos</a>
+      </div>
+    </div>
+
+    <div class="card hero-right">
+      <div class="quick reveal delay1">
+        <h3>Quick Info</h3>
+        <div class="qrow"><span>Service Areas</span><strong>USA • Canada</strong></div>
+        <div class="qrow"><span>Phone</span><strong>+1 707 314 7056</strong></div>
+        <div class="qrow"><span>Email</span><strong>titantimber@usa.com</strong></div>
+        <div class="qrow"><span>Available</span><strong>Quotes &amp; Scheduling</strong></div>
+        <div class="note">We can take projects anywhere work is needed.</div>
+      </div>
+
+      <div class="stats reveal delay2">
+        <div class="stat"><div class="num" data-count="21">0</div><div class="lbl">Years of dependable operations</div></div>
+        <div class="stat"><div class="num" data-count="1200">0</div><div class="lbl">Completed jobs (est.)</div></div>
+        <div class="stat"><div class="num" data-count="24">0</div><div class="lbl">Fast response (hours)</div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="about" class="section">
+  <div class="container">
+    <div class="card" style="padding:22px;">
+      <h2 class="reveal">About TITAN TIMBER</h2>
+      <p class="lead reveal delay1">
+        Since 2009, TITAN TIMBER has delivered dependable timber operations with professional crews,
+        modern equipment, and best-practice safety standards. We focus on clean execution, timely logistics,
+        and responsible environmental practices — across the USA and Canada.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="services" class="section">
+  <div class="container">
+    <h2 class="reveal">Services</h2>
+    <div class="grid4">
+      <div class="svc reveal delay1"><div class="icon">🌲</div><h3>Timber Harvesting</h3><p>Professional felling, processing, and extraction with strict safety control.</p></div>
+      <div class="svc reveal delay1"><div class="icon">🪵</div><h3>Land Clearing</h3><p>Efficient clearing for development, access roads, and project sites.</p></div>
+      <div class="svc reveal delay2"><div class="icon">🚚</div><h3>Log Hauling</h3><p>Reliable transport and on-time delivery with coordinated logistics.</p></div>
+      <div class="svc reveal delay2"><div class="icon">🛠️</div><h3>Site Preparation</h3><p>Professional prep work for construction and long-term land use.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="section">
+  <div class="container">
+    <h2 class="reveal">Recent Projects</h2>
+    <div class="projects">
+      <div class="proj reveal delay1">
+        <h3>Land Clearing — Development Site</h3>
+        <p>Cleared and prepared the land for a new development with clean haul-off and safe operations.</p>
+        <div class="beforeafter">
+          <div class="ba"><span class="tag">Before</span><img src="truck.jpg" alt="before"></div>
+          <div class="ba"><span class="tag">After</span><img src="forwarder.jpg" alt="after"></div>
+        </div>
+      </div>
+      <div class="proj reveal delay2">
+        <h3>Timber Harvesting — Production Block</h3>
+        <p>Efficient harvesting with modern equipment and coordinated logistics for on-time delivery.</p>
+        <div class="beforeafter">
+          <div class="ba"><span class="tag">Before</span><img src="buncher.jpg" alt="before"></div>
+          <div class="ba"><span class="tag">After</span><img src="havester.jpg" alt="after"></div>
+        </div>
+      </div>
+      <div class="proj reveal delay3">
+        <h3>Hauling & Logistics — Multi-Day Run</h3>
+        <p>Reliable hauling schedule, safe loading, and consistent daily output.</p>
+        <div class="beforeafter">
+          <div class="ba"><span class="tag">Load</span><img src="truck.jpg" alt="load"></div>
+          <div class="ba"><span class="tag">Team</span><img src="CEO.jpeg" alt="team"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery" class="section">
+  <div class="container">
+    <div class="card" style="padding:18px;">
+      <h2 class="reveal">Gallery</h2>
+      <p class="lead reveal delay1" style="margin-bottom:14px;">A clean photo grid showing your equipment and operations.</p>
+
+      <div class="galleryGrid reveal delay2">
+        <div class="gcard"><img src="havester.jpg" alt="Harvester"><div class="gcap">Harvester</div></div>
+        <div class="gcard"><img src="forwarder.jpg" alt="Forwarder"><div class="gcap">Forwarder</div></div>
+        <div class="gcard"><img src="buncher.jpg" alt="Buncher"><div class="gcap">Buncher</div></div>
+        <div class="gcard"><img src="truck.jpg" alt="Truck"><div class="gcap">Log Truck</div></div>
+        <div class="gcard"><img src="CEO.jpeg" alt="Operations"><div class="gcap">Field Operations</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="testimonials" class="section">
+  <div class="container">
+    <div class="card testimonials">
+      <h2 class="reveal">Testimonials</h2>
+      <div class="tbox reveal delay1">
+        <div class="tquote" id="tquote">“Professional crew, great communication, and the job was completed on schedule. Highly recommended.”</div>
+        <div class="tname" id="tname">— Client, Land Clearing Project</div>
+        <div class="tnav" id="tnav"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="equipment" class="section">
+  <div class="container">
+    <div class="card equip">
+      <h2 class="reveal">Equipment &amp; Operations</h2>
+      <p class="lead reveal delay1" style="margin-bottom:14px;">Images rotate automatically — one appears, one disappears — for a premium presentation.</p>
+
+      <div class="carousel reveal delay2" id="carousel">
+        <div class="slide active" data-title="Harvester" data-sub="Modern harvesting performance"><img src="havester.jpg" alt="harvester"></div>
+        <div class="slide" data-title="Forwarder" data-sub="Efficient transport from site to landing"><img src="forwarder.jpg" alt="forwarder"></div>
+        <div class="slide" data-title="Buncher" data-sub="Fast felling and grouping for processing"><img src="buncher.jpg" alt="buncher"></div>
+        <div class="slide" data-title="Log Truck" data-sub="Reliable hauling and scheduling"><img src="truck.jpg" alt="truck"></div>
+        <div class="slide" data-title="Field Operations" data-sub="Professional crews • Safety first"><img src="CEO.jpeg" alt="CEO"></div>
+
+        <div class="caption">
+          <div class="cap-title" id="capTitle">Harvester</div>
+          <div class="cap-sub" id="capSub">Modern harvesting performance</div>
+        </div>
+        <div class="dots" id="dots"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="section">
+  <div class="container">
+    <div class="card formwrap">
+      <h2 class="reveal">Request a Quote</h2>
+      <p class="lead reveal delay1" style="margin:8px 0 16px;">Send your job details. We respond fast for scheduling and pricing.</p>
+
+      <form class="reveal delay2"
+        onsubmit="event.preventDefault(); alert('Quote request saved. Please contact us by phone/WhatsApp to finalize.');">
+        <div class="field"><label>Full Name</label><input type="text" placeholder="Your name" required></div>
+        <div class="field"><label>Phone Number</label><input type="tel" placeholder="+1 ..." required></div>
+        <div class="field"><label>Email</label><input type="email" placeholder="you@email.com" required></div>
+        <div class="field">
+          <label>Service Needed</label>
+          <select required>
+            <option value="">Select</option>
+            <option>Timber Harvesting</option>
+            <option>Land Clearing</option>
+            <option>Log Hauling</option>
+            <option>Site Preparation</option>
+          </select>
+        </div>
+
+        <div class="field" style="grid-column:1/-1;">
+          <label>Project Details</label>
+          <textarea placeholder="Location, acres, timeline, access, special requests..." required></textarea>
+          <small>Tip: Include city/state (or province) so we can estimate logistics.</small>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">Submit Quote Request</button>
+          <a class="btn btn-ghost" href="tel:+17073147056">Call Now</a>
+          <span class="hint">Or use WhatsApp button to chat instantly.</span>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>©️ 2026 TITAN TIMBER. All rights reserved.</footer>
+
+<a class="whatsapp"
+   href="https://wa.me/17073147056?text=Hello%20TITAN%20TIMBER%2C%20I%20would%20like%20a%20quote.%0A%0AService%3A%20%0ALocation%3A%20%0ATimeline%3A%20%0ADetails%3A%20"
+   target="_blank" rel="noopener">
+  <span>Get Quote on WhatsApp</span>
+</a>
+
+<script>
+/* reveal on scroll */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* counter animation */
+function animateCount(el, to){
+  let start = 0;
+  const dur = 1100;
+  const t0 = performance.now();
+  function tick(t){
+    const p = Math.min(1,(t-t0)/dur);
+    const val = Math.floor(start + (to-start)*p);
+    el.textContent = to >= 1000 ? val.toLocaleString() : val;
+    if(p<1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+const statsIO = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const nums = e.target.querySelectorAll('.num');
+      nums.forEach(n=>{
+        const to = parseInt(n.getAttribute('data-count'),10);
+        if(!n.dataset.done){
+          n.dataset.done = "1";
+          animateCount(n,to);
+        }
+      });
+    }
+  });
+},{threshold:.4});
+document.querySelectorAll('.stats').forEach(s=>statsIO.observe(s));
+
+/* equipment carousel */
+const slides = Array.from(document.querySelectorAll('.slide'));
+const capTitle = document.getElementById('capTitle');
+const capSub = document.getElementById('capSub');
+const dots = document.getElementById('dots');
+let idx = 0;
+
+slides.forEach((_,i)=>{
+  const b = document.createElement('button');
+  b.addEventListener('click', ()=>go(i,true));
+  dots.appendChild(b);
+});
+function updateDots(){
+  Array.from(dots.children).forEach((d,i)=>d.classList.toggle('active', i===idx));
+}
+function go(i, manual=false){
+  slides[idx].classList.remove('active');
+  idx = i;
+  slides[idx].classList.add('active');
+  capTitle.textContent = slides[idx].dataset.title || "Equipment";
+  capSub.textContent = slides[idx].dataset.sub || "";
+  updateDots();
+  if(manual){ clearInterval(timer); timer = setInterval(next, 4200); }
+}
+function next(){ go((idx+1) % slides.length); }
+updateDots();
+let timer = setInterval(next, 4200);
+
+/* testimonials slider */
+const testimonials = [
+  {q:"“Professional crew, great communication, and the job was completed on schedule. Highly recommended.”", n:"— Client, Land Clearing Project"},
+  {q:"“They worked safely and efficiently. Equipment was top-class and the site was left clean.”", n:"— Client, Timber Harvesting"},
+  {q:"“Reliable hauling and logistics. Everything ran smoothly from start to finish.”", n:"— Client, Hauling & Logistics"}
+];
+const tquote = document.getElementById("tquote");
+const tname = document.getElementById("tname");
+const tnav = document.getElementById("tnav");
+let ti = 0;
+
+testimonials.forEach((_,i)=>{
+  const b = document.createElement("button");
+  b.addEventListener("click", ()=>showT(i,true));
+  tnav.appendChild(b);
+});
+function setTnav(){
+  Array.from(tnav.children).forEach((b,i)=>b.classList.toggle("active", i===ti));
+}
+function showT(i, manual=false){
+  ti = i;
+  tquote.textContent = testimonials[ti].q;
+  tname.textContent = testimonials[ti].n;
+  setTnav();
+  if(manual){ clearInterval(ttimer); ttimer = setInterval(nextT, 4500); }
+}
+function nextT(){ showT((ti+1)%testimonials.length); }
+setTnav();
+let ttimer = setInterval(nextT, 4500);
+</script>
+
+</body>
+</html>
